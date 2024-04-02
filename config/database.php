@@ -77,9 +77,7 @@ return [
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
             'options' => [
-               // PDO::PGSQL_ATTR_SSL_KEY =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'), // Ruta al certificado clave
-                PDO::PGSQL_ATTR_SSL_CERT =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'), // Ruta al certificado SSL
-                //PDO::PGSQL_ATTR_SSL_CA =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'), // Ruta al archivo de autoridad de certificación
+                'sslcert' =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'),
             ],
         ],
 
