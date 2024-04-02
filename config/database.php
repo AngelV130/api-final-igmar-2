@@ -77,8 +77,10 @@ return [
             'search_path' => 'public',
             'sslmode' => env('DB_SSLMODE', 'prefer'),
             'options' => [
-                'sslcert' =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'),
+                PDO::ATTR_EMULATE_PREPARES => true,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ],
+            'sslrootcert' =>  env('DB_SSLROOTCERT', '/home/angel/.postgresql/root.crt'),
         ],
 
         'sqlsrv' => [
