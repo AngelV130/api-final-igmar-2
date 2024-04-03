@@ -45,14 +45,14 @@ Route::group(['middleware' => ['auth:sanctum']],function () {
         Route::get('perfil', 'perfil')->name('perfil.info');
     });
     Route::controller(CategoryController::class)->group(function () {
-        Route::get('/categories', 'index')->name('categories.info');
+        Route::get('/categories', 'index')->name('categories.index');
         Route::get('/categories/{id}', 'index')->name('categories.info');
         Route::post('/categories', 'create')->name('categories.create');
         Route::put('/categories/{id}', 'edit')->name('categories.edit')->whereNumber('id');
         Route::delete('/categories/{id}', 'destroy')->name('categories.delete')->whereNumber('id');
     });
     Route::controller(ProductsController::class)->group(function () {
-        Route::get('/products', 'index')->name('products.info');
+        Route::get('/products', 'index')->name('products.index');
         Route::get('/products/{id}', 'index')->name('products.info');
         Route::post('/products', 'create')->name('products.create');
         Route::put('/products/{id}', 'edit')->name('products.edit')->whereNumber('id');
