@@ -24,7 +24,7 @@ return new class extends Migration
             
             $table->rememberToken();
             $table->timestamps();
-            $table->boolean('status')->default(false);
+            $table->smallInteger('status')->default(false);
         });
     }
 

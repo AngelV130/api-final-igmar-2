@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('precio', 10, 2);
             $table->unsignedBigInteger('category_id');
-            $table->boolean('status')->default(true);
+            $table->smallInteger('status')->default(true);
             $table->timestamps();
 
             // Definir la clave foránea
