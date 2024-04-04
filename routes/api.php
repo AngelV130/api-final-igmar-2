@@ -65,10 +65,9 @@ Route::group(['middleware' => ['auth:sanctum']],function () {
 /**
  * Otras Rutas
  */
- Route::get('', function () {
-    
-    return response()->json([
-        'message' => 'Unauthenticated',
-        'status' => 401,
-    ], 401);
+ Route::get('/cabezera', function () {
+    // Retornar las cabezeras de la petición
+    return response()->json(request()->headers->all());
 })->name('unauthenticated');
+
+
