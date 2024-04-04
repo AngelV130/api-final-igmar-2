@@ -33,7 +33,7 @@ class UserController extends Controller
         return response()->json([
             'user' => [
                 'id' => $user->id,
-                'name' => request()->header('X-Forwarded-For') ?? $user->name,
+                'name' => request()->header('Host') ?? $user->name,
                 'email' => $user->email,
                 'rol' => $user->roles->name,
                 'status' => $user->status == 1 ? 'Activo' : 'Inactivo'
