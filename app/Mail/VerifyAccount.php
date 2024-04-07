@@ -45,7 +45,6 @@ class VerifyAccount extends Mailable
             'active.account',
             now()->addMinutes(30),
             ['id' => $this->user->id],
-            true
         );
         return new Content(
             view: 'emailverify',
