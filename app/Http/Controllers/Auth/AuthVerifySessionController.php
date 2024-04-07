@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
+use App\Models\Code;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
@@ -109,13 +110,44 @@ class AuthVerifySessionController extends Controller
                     'message' => 'Su cuenta no ha sido verificada. Por favor, revise su correo electrónico.',
                     'status'=> 401
                 ], 401);
+            if($user->rol == 2 && request()->header("Host") == env("IP_VPN_NETWORK", "192.0.2.6") && false){
+                return response()->json([
+                        'message' => 'La cuenta no existe o no tiene acceso.',
+                        'status'=> 401
+                    ], 401);
+            }
             if($user->rol === 1){
+                if(!(request()->header("Host") == env("IP_VPN_NETWORK", "192.0.2.6")) && false){
+                    return response()->json([
+                        'message' => 'La cuenta no existe.',
+                        'status'=> 401
+                    ], 401);
+                }
                 $timeout = now()->addMinutes(3);
                 MailJob::dispatch(new VerifyCodeAdmin($user),$user)->onQueue('default');
                 $urlSigned = URL::temporarySignedRoute(
                     'verify.code',
                     $timeout,
-                    ['id' => $user->id]
+                    ['id' => $user->id],
+                    true
+                );
+                // TimOutCodeVerify::dispatch($user)->delay($timeout)->onQueue('default');
+                Log::channel('slack')->warning('Se intento inciar sesion con con la cuenta de Administrador de ' . $user->email. '');
+                return response()->json([
+                    'message' => 'Se envio un codigo de verificacion al correo '.$user->email,
+                    'singurl' => parse_url($urlSigned, PHP_URL_QUERY),
+                    'user_id' => $user->id,
+                    'status'=> 403
+                ], 403);
+            }
+            if($user->rol == 3){
+                $timeout = now()->addMinutes(3);
+                MailJob::dispatch(new SendCodeMobile($user),$user)->onQueue('default');
+                $urlSigned = URL::temporarySignedRoute(
+                    'verify.code',
+                    $timeout,
+                    ['id' => $user->id],
+                    true
                 );
                 // TimOutCodeVerify::dispatch($user)->delay($timeout)->onQueue('default');
                 Log::channel('slack')->warning('Se intento inciar sesion con con la cuenta de Administrador de ' . $user->email. '');

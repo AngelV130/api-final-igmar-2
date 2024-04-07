@@ -17,7 +17,8 @@ class RolesSeeder extends Seeder
         // Roles para agregar
         $roles = [
             ['name' => 'Administrador'],
-            ['name' => 'Usuario'],
+            ['name' => 'Guest'],
+            ['name' => 'Coordinador'],
         ];
 
         // Inserta roles en la base de datos

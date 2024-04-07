@@ -15,6 +15,7 @@ class Roles extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'name',
     ];
 
@@ -24,7 +25,8 @@ class Roles extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'id',
+        'created_at',
+        'updated_at',
     ];
 
     public function users()

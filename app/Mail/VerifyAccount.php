@@ -16,6 +16,8 @@ class VerifyAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected string $url;
+    
     /**
      * Create a new message instance.
      */
@@ -39,15 +41,16 @@ class VerifyAccount extends Mailable
      */
     public function content(): Content
     {
+        $this->url = URL::temporarySignedRoute(
+            'active.account',
+            now()->addMinutes(30),
+            ['id' => $this->user->id],
+            false
+        );
         return new Content(
             view: 'emailverify',
             with: [
-                'url' => URL::temporarySignedRoute(
-                    'active.account',
-                    now()->addMinutes(120),
-                    ['id' => $this->user->id],
-                    false
-                ),
+                'url' => env("APP_URL",'http://localhost').$this->url,
                 'name' => $this->user->name,
             ],
         );

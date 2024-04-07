@@ -13,7 +13,7 @@ use App\Models\User;
 use App\Models\Code;
 use Illuminate\Support\Facades\Hash;
 
-class VerifyCodeAdmin extends Mailable
+class SendCodeMobile extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -25,7 +25,7 @@ class VerifyCodeAdmin extends Mailable
     public function __construct(protected User $user)
     {
         $this->user = $user;
-        $this->code = strval(rand(100000000000, 999999999999));
+        $this->code = strval(rand(1000, 9999));
     }
 
     /**
@@ -34,7 +34,7 @@ class VerifyCodeAdmin extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verify Account',
+            subject: 'Send Code Mobile',
         );
     }
 
@@ -43,12 +43,8 @@ class VerifyCodeAdmin extends Mailable
      */
     public function content(): Content
     {
-        // $this->user->code =  Hash::make($this->code);
-        // $this->user->save();
-        Code::create([
-            'code'=> Hash::make($this->code),
-            'id_user' => $this->user->id,
-        ]);
+        $this->user->code =  Hash::make($this->code);
+        $this->user->save();
         return new Content(
             view: 'emailcode',
             with: [

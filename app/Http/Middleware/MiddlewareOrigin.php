@@ -15,9 +15,9 @@ class MiddlewareOrigin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $allwedOrigin = env('CORS_ALLOWED_ORIGINS', '*');
-        if($request->headers->get('Origin')!== $allwedOrigin && $allwedOrigin !== '*')
-            return response('Forbidden', 404);
+        $allwedOrigin = explode(',',env('CORS_ALLOWED_ORIGINS'));
+        if(!in_array($request->headers->get('Origin'),$allwedOrigin))
+            return response('Sin acceso', 404);
         return $next($request);
     }
 }

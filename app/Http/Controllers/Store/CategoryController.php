@@ -6,6 +6,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 
+// PDO Exepcion
+use Illuminate\Database\QueryException;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
+use PDOException;
+use Exception;
+
 
 class CategoryController extends Controller
 {
@@ -44,7 +53,7 @@ class CategoryController extends Controller
                 'errors' => $e->errors()
             ], 401);
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             Log::channel('slack')->error($e->getMessage());
             return response()->json([
                 'message' => 'Error interno del servidor. Por favor, inténtelo de nuevo más tarde.',
@@ -92,7 +101,7 @@ class CategoryController extends Controller
                 'errors' => $e->errors()
             ], 401);
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             Log::channel('slack')->error($e->getMessage());
             return response()->json([
                 'message' => 'Error interno del servidor. Por favor, inténtelo de nuevo más tarde.',
@@ -143,7 +152,7 @@ class CategoryController extends Controller
                 'errors' => $e->errors()
             ], 401);
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             Log::channel('slack')->error($e->getMessage());
             return response()->json([
                 'message' => 'Error interno del servidor. Por favor, inténtelo de nuevo más tarde.',
@@ -187,7 +196,7 @@ class CategoryController extends Controller
                 'errors' => $e->errors()
             ], 401);
         }
-        catch (\Exception $e) {
+        catch (Exception $e) {
             Log::channel('slack')->error($e->getMessage());
             return response()->json([
                 'message' => 'Error interno del servidor. Por favor, inténtelo de nuevo más tarde.',

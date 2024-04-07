@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('password1'),
             'code' => '111111',
-            'rol' => 2, // Suponiendo que el ID del rol de usuario es 2
+            'rol' => 3, // Suponiendo que el ID del rol de usuario es 2
             'remember_token' => Str::random(10),
             'status' => true,
             'created_at' => now(),

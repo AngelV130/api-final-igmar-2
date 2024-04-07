@@ -35,28 +35,32 @@ Route::controller(AuthVerifyUserController::class)->group(function () {
     Route::get('verify/email/{id}','activeAccount')->name('active.account')->whereNumber('id')->middleware('signed');
     
     Route::post('verify/code/{id}', 'verifyCode')->name('verify.code')->whereNumber('id')->middleware('signed');
-});
 
+    Route::post('code/mobile', 'verifyCodeMovil')->name('code.mobile')->middleware('rol:1');
+});
 
 Route::group(['middleware' => ['auth:sanctum']],function () {
     Route::controller(UserController::class)->group(function () {
-        Route::get('users', 'users')->name('users.info')->middleware('rol:1');
-
         Route::get('perfil', 'perfil')->name('perfil.info');
+        Route::get('roles', 'getRoles')->name('roles.info')->middleware('rol:1');
+        Route::get('users', 'users')->name('users.info')->middleware('rol:1');
+        Route::get('user/{id}', 'getuser')->name('user.info')->whereNumber('id')->middleware('rol:1');
+        Route::put('user/{id}', 'edit')->name('perfil.edit')->whereNumber('id')->middleware('rol:1');
+        
     });
     Route::controller(CategoryController::class)->group(function () {
         Route::get('/categories', 'index')->name('categories.index');
-        Route::get('/categories/{id}', 'index')->name('categories.info');
-        Route::post('/categories', 'create')->name('categories.create');
-        Route::put('/categories/{id}', 'edit')->name('categories.edit')->whereNumber('id');
-        Route::delete('/categories/{id}', 'destroy')->name('categories.delete')->whereNumber('id');
+        Route::get('/categories/{id}', 'index')->name('categories.info')->middleware('rol:1,2');
+        Route::post('/categories', 'create')->name('categories.create')->middleware('rol:1,2');
+        Route::put('/categories/{id}', 'edit')->name('categories.edit')->whereNumber('id')->middleware('rol:1,2');
+        Route::delete('/categories/{id}', 'destroy')->name('categories.delete')->whereNumber('id')->middleware('rol:1,2');
     });
     Route::controller(ProductsController::class)->group(function () {
         Route::get('/products', 'index')->name('products.index');
-        Route::get('/products/{id}', 'index')->name('products.info');
-        Route::post('/products', 'create')->name('products.create');
-        Route::put('/products/{id}', 'edit')->name('products.edit')->whereNumber('id');
-        Route::delete('/products/{id}', 'destroy')->name('products.delete')->whereNumber('id');
+        Route::get('/products/{id}', 'index')->name('products.info')->middleware('rol:1,2');
+        Route::post('/products', 'create')->name('products.create')->middleware('rol:1,2');
+        Route::put('/products/{id}', 'edit')->name('products.edit')->whereNumber('id')->middleware('rol:1,2');
+        Route::delete('/products/{id}', 'destroy')->name('products.delete')->whereNumber('id')->middleware('rol:1,2');
     });
 });
 
@@ -65,9 +69,5 @@ Route::group(['middleware' => ['auth:sanctum']],function () {
 /**
  * Otras Rutas
  */
- Route::get('/cabezera', function () {
-    // Retornar las cabezeras de la petición
-    return response()->json(request()->headers->all());
-})->name('unauthenticated');
 
 
