@@ -110,14 +110,14 @@ class AuthVerifySessionController extends Controller
                     'message' => 'Su cuenta no ha sido verificada. Por favor, revise su correo electrónico.',
                     'status'=> 401
                 ], 401);
-            if($user->rol == 2 && request()->header("Host") == env("IP_VPN_NETWORK", "192.0.2.6")){
+            if($user->rol == 2 && request()->header("Origin") == env("IP_VPN_NETWORK", "192.0.2.6")){
                 return response()->json([
                         'message' => 'La cuenta no existe o no tiene acceso.',
                         'status'=> 401
                     ], 401);
             }
             if($user->rol === 1){
-                if(!(request()->header("Host") == env("IP_VPN_NETWORK", "192.0.2.6"))){
+                if(!(request()->header("Origin") == env("IP_VPN_NETWORK", "192.0.2.6"))){
                     return response()->json([
                         'message' => 'La cuenta no existe.',
                         'status'=> 401
