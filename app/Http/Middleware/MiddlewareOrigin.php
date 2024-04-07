@@ -19,7 +19,8 @@ class MiddlewareOrigin
         if(!in_array($request->headers->get('Origin'),$allwedOrigin) || !($request->headers->get('Origin') == null))
             return response([
                 'all'=> $allwedOrigin,
-                'origin'=> $request->headers->get('Origin')
+                'origin'=> $request->headers->get('Origin'),
+                'ok' => !($request->headers->get('Origin') == null)
             ], 404);
         return $next($request);
     }
