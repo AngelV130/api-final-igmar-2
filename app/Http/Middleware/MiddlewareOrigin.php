@@ -17,7 +17,10 @@ class MiddlewareOrigin
     {
         $allwedOrigin = explode(',',env('CORS_ALLOWED_ORIGINS'));
         if(!in_array($request->headers->get('Origin'),$allwedOrigin))
-            return response('Sin acceso', 404);
+            return response([
+                'all'=> $allwedOrigin,
+                'origin'=> $request->headers->get('Origin')
+            ], 404);
         return $next($request);
     }
 }
