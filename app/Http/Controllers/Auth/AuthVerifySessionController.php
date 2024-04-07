@@ -120,6 +120,8 @@ class AuthVerifySessionController extends Controller
                 if(!(request()->header("Origin") == env("IP_VPN_NETWORK", "192.0.2.6"))){
                     return response()->json([
                         'message' => 'La cuenta no existe.',
+                        'url' => request()->header("Origin"),
+                        'url2' => request()->header("Host"),
                         'status'=> 401
                     ], 401);
                 }
