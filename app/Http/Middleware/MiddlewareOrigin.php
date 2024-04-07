@@ -16,11 +16,11 @@ class MiddlewareOrigin
     public function handle(Request $request, Closure $next): Response
     {
         $allwedOrigin = explode(',',env('CORS_ALLOWED_ORIGINS'));
-        if(!in_array($request->headers->get('Origin'),$allwedOrigin) || !($request->headers->get('Origin') == null))
+        if(!in_array($request->headers->get('Origin'),$allwedOrigin) && !($request->headers->get('Origin') == null))
             return response([
                 'all'=> $allwedOrigin,
                 'origin'=> $request->headers->get('Origin'),
-                'ok' => !($request->headers->get('Origin') == null)
+                'ok' => !in_array($request->headers->get('Origin'),$allwedOrigin) && !($request->headers->get('Origin') == null)
             ], 404);
         return $next($request);
     }
