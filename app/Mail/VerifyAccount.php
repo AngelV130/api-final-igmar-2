@@ -45,12 +45,12 @@ class VerifyAccount extends Mailable
             'active.account',
             now()->addMinutes(30),
             ['id' => $this->user->id],
-            false
+            true
         );
         return new Content(
             view: 'emailverify',
             with: [
-                'url' => env("APP_URL",'http://localhost').$this->url,
+                'url' => $this->url,
                 'name' => $this->user->name,
             ],
         );
