@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
         'rol' => \App\Http\Middleware\CheckRol::class,
         'only.named.route' => \App\Http\Middleware\OnlyNamedRoute::class,
+        'userHost' => \App\Http\Middleware\ValidHostUser::class,
     ];
 }

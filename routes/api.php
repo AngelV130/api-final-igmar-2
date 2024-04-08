@@ -32,14 +32,14 @@ Route::controller(AuthVerifySessionController::class)->group(function () {
 });
 
 Route::controller(AuthVerifyUserController::class)->group(function () {
-    Route::get('verify/email/{id}','activeAccount')->name('active.account')->whereNumber('id')->middleware('signed');
+    Route::get('verify/email/{id}','activeAccount')->name('active.account')->whereNumber('id');
     
-    Route::post('verify/code/{id}', 'verifyCode')->name('verify.code')->whereNumber('id')->middleware('signed');
+    Route::post('verify/code/{id}', 'verifyCode')->name('verify.code')->whereNumber('id');
 
     Route::post('code/mobile', 'verifyCodeMovil')->name('code.mobile')->middleware('rol:1');
 });
 
-Route::group(['middleware' => ['auth:sanctum']],function () {
+Route::group(['middleware' => ['auth:sanctum', 'userHost']],function () {
     Route::controller(UserController::class)->group(function () {
         Route::get('perfil', 'perfil')->name('perfil.info');
         Route::get('roles', 'getRoles')->name('roles.info')->middleware('rol:1');
