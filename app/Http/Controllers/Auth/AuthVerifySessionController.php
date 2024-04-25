@@ -26,6 +26,7 @@ use App\Mail\TimOutCodeVerify;
 use App\Jobs\MailJob;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\SendCodeMobile;
 
 class AuthVerifySessionController extends Controller
 {
