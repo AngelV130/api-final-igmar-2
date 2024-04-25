@@ -38,7 +38,7 @@ class AuthVerifySessionController extends Controller
         }
         return redirect('/dashboard');
     }
-    
+
     /**
      * Crea un nuevo registro de usuario
      */
@@ -58,7 +58,7 @@ class AuthVerifySessionController extends Controller
                 'message' => 'Se ha enviado un correo de verificación a su cuenta.',
                 'status' => 200,
             ]);
-            
+
         } catch (QueryException $e) {
             Log::channel('slack')->error($e->getMessage());
             return response()->json([
@@ -96,7 +96,7 @@ class AuthVerifySessionController extends Controller
      * Verifica y crea una nueva sesion autenticada del usuario
      */
     public function login(LoginRequest $request){
-        
+
         try{
             $user = User::where('email', $request->email)->first();
             if(!$user || Hash::check($request->password, $user->password) === false){
@@ -110,7 +110,7 @@ class AuthVerifySessionController extends Controller
                     'message' => 'Su cuenta no ha sido verificada. Por favor, revise su correo electrónico.',
                     'status'=> 401
                 ], 401);
-            if($user->rol == 2 && request()->header("Origin") == env("IP_VPN_NETWORK", "https://192.0.2.6")){
+            if(($user->rol == 2 || $user->rol == 3) && request()->header("Origin") == env("IP_VPN_NETWORK", "https://192.0.2.6")){
                 return response()->json([
                         'message' => 'La cuenta no existe o no tiene acceso.',
                         'status'=> 401

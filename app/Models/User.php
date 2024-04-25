@@ -59,7 +59,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-            $model->rol = User::count() === 0 ? 1 : 2;
+            $model->rol = User::count() === 0 ? 1 : 3;
         });
     }
 
